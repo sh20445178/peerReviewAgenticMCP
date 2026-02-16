@@ -5,7 +5,7 @@ Configuration management for the Peer Review MCP Server.
 import os
 from typing import Optional, Dict, Any, List
 from pydantic import Field, field_validator
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 from dotenv import load_dotenv
 
 # Load environment variables from .env file
@@ -24,8 +24,10 @@ class DatabaseConfig(BaseSettings):
         description="Enable SQL query logging"
     )
     
-    class Config:
-        env_prefix = "DB_"
+    model_config = SettingsConfigDict(
+        env_prefix="DB_",
+        extra="ignore"
+    )
 
 
 class GitHubConfig(BaseSettings):
@@ -44,8 +46,10 @@ class GitHubConfig(BaseSettings):
         description="GitHub API base URL (use for GitHub Enterprise)"
     )
     
-    class Config:
-        env_prefix = "GITHUB_"
+    model_config = SettingsConfigDict(
+        env_prefix="GITHUB_",
+        extra="ignore"
+    )
 
 
 class SonarQubeConfig(BaseSettings):
@@ -68,8 +72,10 @@ class SonarQubeConfig(BaseSettings):
         description="SonarQube password (alternative to token)"
     )
     
-    class Config:
-        env_prefix = "SONARQUBE_"
+    model_config = SettingsConfigDict(
+        env_prefix="SONARQUBE_",
+        extra="ignore"
+    )
 
 
 class JiraConfig(BaseSettings):
@@ -88,8 +94,10 @@ class JiraConfig(BaseSettings):
         description="Jira API token"
     )
     
-    class Config:
-        env_prefix = "JIRA_"
+    model_config = SettingsConfigDict(
+        env_prefix="JIRA_",
+        extra="ignore"
+    )
 
 
 class PeerReviewConfig(BaseSettings):
@@ -116,8 +124,10 @@ class PeerReviewConfig(BaseSettings):
         description="Maximum hours to wait for review"
     )
     
-    class Config:
-        env_prefix = "PEER_REVIEW_"
+    model_config = SettingsConfigDict(
+        env_prefix="PEER_REVIEW_",
+        extra="ignore"
+    )
 
 
 class MCPServerConfig(BaseSettings):
@@ -140,8 +150,10 @@ class MCPServerConfig(BaseSettings):
         description="Logging level"
     )
     
-    class Config:
-        env_prefix = "MCP_"
+    model_config = SettingsConfigDict(
+        env_prefix="MCP_",
+        extra="ignore"
+    )
 
 
 class Config(BaseSettings):
@@ -200,10 +212,13 @@ class Config(BaseSettings):
         """Convert configuration to dictionary."""
         return self.model_dump()
     
-    class Config:
-        env_file = ".env"
-        env_file_encoding = "utf-8"
-        case_sensitive = False
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        env_file_encoding="utf-8",
+        case_sensitive=False,
+        extra="ignore",
+        env_nested_delimiter="__"
+    )
 
 
 # Global configuration instance
